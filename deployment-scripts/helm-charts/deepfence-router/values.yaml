@@ -16,6 +16,8 @@ service:
   # Also, possible to use Ingress as type when ingress controller is installed
   type: LoadBalancer # NodePort/Ingress
   # Nodeport configuration. Only used when selecting NodePort in the service type
+  host: ""
+
   nodePortHttps: ""
   nodePortHttp: ""
   #  Using static ip address for load balancer

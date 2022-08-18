@@ -47,7 +47,11 @@ spec:
   {{- if  eq "LoadBalancer" .Values.service.type   }}
   externalTrafficPolicy: "{{ .Values.service.externalTrafficPolicy }}"
   {{- end }}
+  {{- if  eq "Ingress" .Values.service.type   }}
+  type: ClusterIP
+  {{- else }}
   type: {{ .Values.service.type }}
+  {{- end }}
   selector:
     name: {{ .Values.service.name }}
   ports:
@@ -99,6 +103,14 @@ spec:
                 name: {{ .Values.service.name }}
                 port:
                   number: 443
+{{- if .Values.service.host }}    
+      host: {{ .Values.service.host }}
+
+  tls:
+  - hosts:
+    - {{ .Values.service.host }}
+    secretName: {{ .Values.service.host }}-tls
+{{- end }}
 {{- end }}
 ---
 {{- if eq "true" .Values.createSeparateServiceForAgents }}
